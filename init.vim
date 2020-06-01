@@ -1,3 +1,16 @@
+
+" install vim-plug if it isnt already installed
+if empty(glob('$LOCALAPPDATA\nvim\autoload\plug.vim'))
+  silent ! powershell -Command "
+  \   New-Item -Path ~\AppData\Local\nvim -Name autoload -Type Directory -Force;
+  \   Invoke-WebRequest
+  \   -Uri 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  \   -OutFile ~\AppData\Local\nvim\autoload\plug.vim
+  \ "
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
 " Specify a directory for plugins
 " - For NeovimL stdpath('data') .. '/plugged'
 call plug#begin('$LOCALAPPDATA/nvim')
@@ -9,6 +22,7 @@ else
 	Plug 'roxma/vim-hug-neovim-rpc'
 endif
 Plug 'zchee/deoplete-jedi'
+Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/syntastic'
 Plug 'sheerun/vim-polyglot'
@@ -17,14 +31,24 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mattn/emmet-vim'
-Plug 'dracula/vim',{'as':'dracula'}
-
+Plug 'morhetz/gruvbox'
 call plug#end()
 
-" Enable dracula color scheme
-colorscheme dracula
+"---------------------------------------------------------
+"------------ Enable dracula color scheme ----------------
+autocmd vimenter * colorscheme gruvbox
 
-let g:python3_host_prog = 'C:\Users\Joshu\AppData\Local\Programs\Python\Python38\python.exe'
+"---------------------------------------------------------
+"------------ Add path to python for syntastic -----------
+let g:python3_host_prog = 'C:\Python38\python.exe'
+
+
+"---------------------------------------------------------
+"------------------ NerdTree settings --------------------
+augroup nerdtree_open
+    autocmd!
+    autocmd VimEnter * NERDTree | wincmd p
+augroup END
 
 " basic vim settings
 filetype plugin indent on
@@ -37,6 +61,7 @@ set tabstop=4
 set softtabstop=0
 set shiftwidth=4
 set expandtab
+set clipboard=unnamed
 
 " nvim split window keys
 nmap ss :split<Return><C-w>w
@@ -54,8 +79,8 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " Nerdcommenter nvim comment settings
 let g:NERDSpaceDelims = 1
-
-" -------------Standard Bindings---------------
+"-------------------------------------------------
+" ------------- Standard Bindings ----------------
 inoremap jk <ESC>
 noremap Y y$
 nnoremap <C-t> :!touch<Space>
@@ -66,7 +91,9 @@ nmap <silent> <c-k> :wincmd k<CR>
 nmap <silent> <c-j> :wincmd j<CR>
 nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
-" syntastic settings
+
+"---------------------------------------------------
+"--------------- syntastic settings ----------------
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -75,8 +102,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" vim-surround special bindings
+"-------------------------------------------------------
+"------------ vim-surround special bindings ------------
 vmap <leader>" S"lvi"
 vmap <leader>' S'lvi'
 vmap <leader>` S`lvi`
@@ -84,4 +111,5 @@ vmap <leader>( S)lvi(
 vmap <leader>{ S}lvi{
 vmap <leader>[ S]lvi[
 vmap <leader>< S>lvi<
+
 
