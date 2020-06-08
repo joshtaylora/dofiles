@@ -1,19 +1,7 @@
 
-" install vim-plug if it isnt already installed
-if empty(glob('$LOCALAPPDATA\nvim\autoload\plug.vim'))
-  silent ! powershell -Command "
-  \   New-Item -Path ~\AppData\Local\nvim -Name autoload -Type Directory -Force;
-  \   Invoke-WebRequest
-  \   -Uri 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  \   -OutFile ~\AppData\Local\nvim\autoload\plug.vim
-  \ "
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-
 " Specify a directory for plugins
 " - For NeovimL stdpath('data') .. '/plugged'
-call plug#begin('$LOCALAPPDATA/nvim')
+call plug#begin()
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 else
@@ -35,12 +23,12 @@ Plug 'morhetz/gruvbox'
 call plug#end()
 
 "---------------------------------------------------------
-"------------ Enable dracula color scheme ----------------
+"------------ Enable gruvbox color scheme ----------------
 autocmd vimenter * colorscheme gruvbox
 
 "---------------------------------------------------------
 "------------ Add path to python for syntastic -----------
-let g:python3_host_prog = 'C:\Python38\python.exe'
+let g:python3_host_prog = '/usr/bin/python3.8'
 
 
 "---------------------------------------------------------
@@ -62,6 +50,11 @@ set softtabstop=0
 set shiftwidth=4
 set expandtab
 set clipboard=unnamed
+
+" status line
+set statusline=
+set statusline+=\ %M
+set statusline+=\ %F
 
 " nvim split window keys
 nmap ss :split<Return><C-w>w
