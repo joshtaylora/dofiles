@@ -51,6 +51,14 @@ set shiftwidth=4
 set expandtab
 set clipboard=unnamed
 
+" scroll up
+map <S-Down> <C-y>
+" scroll down
+map <S-Up> <C-e>
+
+" search for the word under the cursor in the current directory
+nnoremap <F5> :grep <C-R><C-W> *<CR>
+
 " status line
 set statusline=
 set statusline+=\ %M
